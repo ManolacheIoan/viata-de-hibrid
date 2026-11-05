@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Viața de Hibrid
 
-## Getting Started
+Site personal cu două fețe: **Studio**, pentru proiecte digitale, și **Arena**, pentru sport. Motto: *„Două lumi, aceeași disciplină.”*
 
-First, run the development server:
+![Pagina de intrare Viața de Hibrid](docs/screenshot.webp)
+
+## Ce conține
+
+- **Pagină de intrare împărțită în două.** Alegi între Studio și Arena, iar fiecare jumătate are culorile și animațiile ei.
+- **Studio:** servicii, proiecte prezentate pe un telefon animat, procesul de lucru și formular de contact.
+- **Arena:** antrenamente, statistici și galerie orizontală.
+- **Animații la scroll:** text care apare pe măsură ce derulezi, efecte de lumină care urmăresc cursorul, scroll fin.
+- **Zonă de administrare protejată cu PIN:** mesajele primite prin formular, proiectele (adăugare și ștergere) și un grafic cu venituri pe luni.
+- **SEO:** imagini de previzualizare generate pentru fiecare pagină, sitemap și robots.
+
+## Tehnologii
+
+Next.js (App Router, Server Actions) · React · TypeScript · Tailwind CSS · Framer Motion · Lenis
+
+## Rulare locală
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Site-ul pornește la http://localhost:3737.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Zona de administrare
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Funcționează doar dacă setezi cele două variabile din `.env.example` într-un fișier `.env.local`:
 
-## Learn More
+```bash
+DASHBOARD_PIN=pinul-tau
+DASHBOARD_SECRET=un-sir-lung-aleator   # de exemplu: openssl rand -hex 32
+```
 
-To learn more about Next.js, take a look at the following resources:
+Fără ele, accesul la administrare rămâne blocat. Mesajele și proiectele se salvează local, în folderul `data/`, care nu e urcat pe GitHub.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Autor
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Ioan Manolache · [manolacheioan.github.io](https://manolacheioan.github.io)
