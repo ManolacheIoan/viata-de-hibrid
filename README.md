@@ -4,6 +4,10 @@ Site personal cu două fețe: **Studio**, pentru proiecte digitale, și **Arena*
 
 ![Pagina de intrare Viața de Hibrid](docs/screenshot.webp)
 
+## English summary
+
+A personal website with two sides: Studio for digital projects and Arena for sport (gym, track and ring). It has scroll animations, a contact form and a PIN-protected admin area for messages, projects and a monthly revenue chart. Built with Next.js (App Router, Server Actions), TypeScript, Tailwind CSS and Framer Motion. The site itself is in Romanian.
+
 ## Ce conține
 
 - **Pagină de intrare împărțită în două.** Alegi între Studio și Arena, iar fiecare jumătate are culorile și animațiile ei.
