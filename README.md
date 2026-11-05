@@ -8,7 +8,7 @@ Site personal cu două fețe: **Studio**, pentru proiecte digitale, și **Arena*
 
 - **Pagină de intrare împărțită în două.** Alegi între Studio și Arena, iar fiecare jumătate are culorile și animațiile ei.
 - **Studio:** servicii, proiecte prezentate pe un telefon animat, procesul de lucru și formular de contact.
-- **Arena:** antrenamente, statistici și galerie orizontală.
+- **Arena:** cele trei discipline (sală, pistă, ring), statistici animate și galerie orizontală.
 - **Animații la scroll:** text care apare pe măsură ce derulezi, efecte de lumină care urmăresc cursorul, scroll fin.
 - **Zonă de administrare protejată cu PIN:** mesajele primite prin formular, proiectele (adăugare și ștergere) și un grafic cu venituri pe luni.
 - **SEO:** imagini de previzualizare generate pentru fiecare pagină, sitemap și robots.
