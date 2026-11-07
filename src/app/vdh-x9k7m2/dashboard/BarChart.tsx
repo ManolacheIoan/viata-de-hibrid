@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import type { MonthSeries } from "@/lib/projects";
 
 interface Props {
@@ -15,6 +15,9 @@ interface Props {
 interface Tooltip {
   index: number;
   series: "primary" | "secondary";
+  /** On-screen size of the chart relative to its viewBox, measured when the pointer enters a bar. */
+  scaleX: number;
+  scaleY: number;
 }
 
 const VB_W = 1200;
@@ -42,8 +45,13 @@ export function BarChart({
   secondaryLabel = "2025",
   unit = "RON",
 }: Props) {
-  const svgRef = useRef<SVGSVGElement>(null);
   const [hovered, setHovered] = useState<Tooltip | null>(null);
+
+  // Measures the chart from the event (not during render) and stores the result in state.
+  function hover(event: React.MouseEvent<SVGRectElement>, index: number, series: Tooltip["series"]) {
+    const rect = event.currentTarget.ownerSVGElement?.getBoundingClientRect();
+    setHovered({ index, series, scaleX: rect ? rect.width / VB_W : 1, scaleY: rect ? rect.height / VB_H : 1 });
+  }
 
   const hasSecondary = secondary && secondary.length > 0;
   const allValues = [
@@ -73,15 +81,11 @@ export function BarChart({
   }
 
   function tooltipData(): { label: string; value: number; x: number; y: number } | null {
-    if (!hovered || !svgRef.current) return null;
-    const { index, series } = hovered;
+    if (!hovered) return null;
+    const { index, series, scaleX, scaleY } = hovered;
     const entry = series === "primary" ? primary[index] : secondary![index];
     if (!entry) return null;
 
-    const svgEl = svgRef.current;
-    const rect = svgEl.getBoundingClientRect();
-    const scaleX = rect.width / VB_W;
-    const scaleY = rect.height / VB_H;
 
     const gx = PAD.left + index * groupW + groupW / 2;
     const gy = toY(entry.value) - 12;
@@ -106,7 +110,6 @@ export function BarChart({
   return (
     <div className="relative w-full select-none">
       <svg
-        ref={svgRef}
         viewBox={`0 0 ${VB_W} ${VB_H}`}
         style={{ display: "block", width: "100%", height: "auto" }}
         onMouseLeave={() => setHovered(null)}
@@ -181,7 +184,7 @@ export function BarChart({
                     opacity={dimmed ? 0.2 : isHov && hovered?.series === "secondary" ? 0.7 : 0.38}
                     rx={3}
                     style={{ transition: "opacity 120ms ease" }}
-                    onMouseEnter={() => setHovered({ index: i, series: "secondary" })}
+                    onMouseEnter={(e) => hover(e, i, "secondary")}
                   />
                 );
               })()}
@@ -200,7 +203,7 @@ export function BarChart({
                 }
                 rx={3}
                 style={{ transition: "opacity 120ms ease" }}
-                onMouseEnter={() => setHovered({ index: i, series: "primary" })}
+                onMouseEnter={(e) => hover(e, i, "primary")}
               />
 
               {/* Hit area — full height, covers both bars */}
@@ -210,9 +213,7 @@ export function BarChart({
                 width={groupW}
                 height={CHART_H}
                 fill="transparent"
-                onMouseEnter={() =>
-                  setHovered({ index: i, series: "primary" })
-                }
+                onMouseEnter={(e) => hover(e, i, "primary")}
               />
 
               {/* X label */}

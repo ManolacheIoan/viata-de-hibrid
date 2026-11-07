@@ -8,6 +8,18 @@ const ease = [0.16, 1, 0.3, 1] as const;
  * Titlu care apare cuvânt cu cuvânt, fiecare „ridicat" dintr-o mască.
  * Cuvintele încadrate în *asteriscuri* sunt redate în serif italic.
  */
+/** Împarte textul în cuvinte. Accentul poate cuprinde mai multe cuvinte: *de la idee*. */
+function splitWords(text: string) {
+  const words: { word: string; accent: boolean }[] = [];
+  let open = false;
+  for (const raw of text.split(" ")) {
+    if (raw.startsWith("*")) open = true;
+    words.push({ word: raw.replace(/\*/g, ""), accent: open });
+    if (raw.endsWith("*")) open = false;
+  }
+  return words;
+}
+
 export function SplitText({
   text,
   className = "",
@@ -27,8 +39,7 @@ export function SplitText({
 }) {
   const reduce = useReducedMotion();
   const Tag = motion[as];
-  const words = text.split(" ");
-  let inAccent = false;
+  const words = splitWords(text);
 
   const trigger = animateOnView
     ? { initial: "hidden", whileInView: "show", viewport: { once: true, margin: "-60px" } }
@@ -41,12 +52,7 @@ export function SplitText({
       {...trigger}
       variants={{ show: { transition: { staggerChildren: stagger, delayChildren: delay } } }}
     >
-      {words.map((raw, i) => {
-        // Accentul poate cuprinde mai multe cuvinte: *de la idee*
-        if (raw.startsWith("*")) inAccent = true;
-        const accent = inAccent;
-        if (raw.endsWith("*")) inAccent = false;
-        const word = raw.replace(/\*/g, "");
+      {words.map(({ word, accent }, i) => {
         return (
           <span
             key={i}
